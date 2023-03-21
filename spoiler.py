@@ -56,7 +56,7 @@ def get_movie_overview(title):
         movies = search_tmdb(title)
         cnt = len(movies)
         if cnt == 0:
-            raise()
+            raise
         if cnt > 1:
             for i, m in enumerate(movies):
                 y = m['release_date'].split('-')[0]
@@ -92,9 +92,7 @@ def predict_ending(overview):
     try:
         response = openai.ChatCompletion.create(
             model=CHAT_MODEL,
-            messages=[
-                {"role": "user", "content": prompt},
-            ]
+            messages=[{"role": "user", "content": prompt}]
         )
         ending = response["choices"][0]["message"]["content"]
         return ending.strip()

@@ -11,6 +11,7 @@
 1. settings_sample.py を settings.py にリネームします。
 1. `SECRET_KEY` に OpenAI アカウントで発行したシークレットを設定します。
 1. モデルを変えたい場合は `CHAT_MODEL` を変えます。
+1. spoiler.py を使う場合は `TMDB_API_KEY` に TMDb で発行した API キーを設定します。
 
 ## ask.py
 
