@@ -1,4 +1,12 @@
 '''ファイル名を settings.py に変更して使います。
 '''
-SECRET_KEY = 'your-secret-key'
+
+'''ChatGPT API
+'''
+OPENAI_SECRET_KEY = 'your-secret-key'
 CHAT_MODEL = 'gpt-3.5-turbo'
+
+
+'''TMDb API
+'''
+TMDB_API_KEY = 'your-api-key'

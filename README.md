@@ -22,6 +22,13 @@
 - ChatGPT API で文脈を憶えて会話するデモです。
 - 質問するたびにそれまでの会話履歴を送信するので、トークンの消費量が雪だるま式に増えます。
 
+## spoiler.py
+
+- ChatGPT が映画の概要をもとに結末を考えるデモです。
+- タイトルを入力すると映画の概要を TMDb から取得して ChatGPT API に渡します。
+- ※タイトルは ChatGPT API には渡していません。
+
 ## 参考
 
 - https://platform.openai.com/docs/guides/chat
+- https://www.themoviedb.org/documentation/api?language=ja

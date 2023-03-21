@@ -4,7 +4,7 @@ import openai
 
 from settings import *
 
-openai.api_key = SECRET_KEY
+openai.api_key = OPENAI_SECRET_KEY
 
 
 def ask(prompt: str) -> str:

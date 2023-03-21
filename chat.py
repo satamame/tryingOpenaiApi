@@ -5,7 +5,7 @@ import openai
 from settings import *
 
 FIRST_SYS_PROMPT = 'あなたは戯曲のプロットを考える手伝いをしてください。'
-openai.api_key = SECRET_KEY
+openai.api_key = OPENAI_SECRET_KEY
 
 
 def gen_res(new_prmp, msg_hist):
