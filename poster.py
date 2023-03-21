@@ -33,8 +33,8 @@ def make_dalle_prmp(overview):
             model=CHAT_MODEL,
             messages=[{"role": "user", "content": prompt}]
         )
-        ending = response["choices"][0]["message"]["content"]
-        return ending.strip()
+        dalle_prmp = response["choices"][0]["message"]["content"]
+        return dalle_prmp.strip()
     except:
         raise Exception('DALL·E のプロンプトを考えられませんでした。')
 
