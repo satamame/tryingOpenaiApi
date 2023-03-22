@@ -1,4 +1,4 @@
-'''TMDb から映画のあらすじを取得して ChatGPT が結末を考えるデモ。
+'''TMDb から映画のあらすじを取得して ChatGPT が結末を考えるコード例。
 '''
 import openai
 

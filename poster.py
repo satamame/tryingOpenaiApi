@@ -1,4 +1,4 @@
-'''TMDb から映画のあらすじを取得して DALL·E がポスターを書くデモ。
+'''TMDb から映画のあらすじを取得して DALL·E がポスターを書くコード例。
 '''
 import openai
 
@@ -7,7 +7,7 @@ from tmdb import get_movie_overview
 
 openai.api_key = OPENAI_SECRET_KEY
 
-SIZE = '256x256'
+SIZE = '512x512'
 
 
 def make_dalle_prmp(overview):
@@ -23,10 +23,11 @@ def make_dalle_prmp(overview):
     str
         ChatGPT が考えた DALL·E のプロンプト
     '''
-    prompt = '以下のプロットの映画があります。'
-    prompt += 'この映画のポスターを DALL·E に描かせるプロンプトを'
-    prompt += '英語で作ってください。\n'
-    prompt += f'プロット:\n{overview}'
+    prompt = 'Create a DALL·E prompt to draw a movie poster '
+    prompt += 'for the following plot, within 400 characters '
+    prompt += 'without including unnecessary words like "prompt:". '
+    prompt += "Don't use inproper words or phrases for DALL·E.\n"
+    prompt += f'Prot:\n{overview}'
 
     try:
         response = openai.ChatCompletion.create(
@@ -34,7 +35,7 @@ def make_dalle_prmp(overview):
             messages=[{"role": "user", "content": prompt}]
         )
         dalle_prmp = response["choices"][0]["message"]["content"]
-        return dalle_prmp.strip()
+        return dalle_prmp.strip().strip('"\'')
     except:
         raise Exception('DALL·E のプロンプトを考えられませんでした。')
 
