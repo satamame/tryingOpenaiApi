@@ -43,7 +43,7 @@ def main():
         ending = predict_ending(overview)
         print(ending)
     except Exception as err:
-        print(err)
+        print(f'Error: {err}')
         return
 
 

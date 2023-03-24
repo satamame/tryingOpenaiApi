@@ -76,7 +76,11 @@ def get_movie_overview(title):
         cnt = len(movies)
         if cnt == 0:
             raise
-        m_i = 0
+
+        # 公開日順にソートする
+        movies.sort(key=lambda m: m['release_date'])
+
+        m_i = 0  # 複数あった場合の選択するインデックス
         if cnt > 1:
             for i, m in enumerate(movies):
                 y = m['release_date'].split('-')[0]

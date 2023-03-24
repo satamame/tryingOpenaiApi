@@ -1,6 +1,7 @@
 '''TMDb から映画のあらすじを取得して DALL·E がポスターを書くコード例。
 '''
 import openai
+from openai import InvalidRequestError
 
 from settings import *
 from tmdb import get_movie_overview
@@ -23,16 +24,39 @@ def make_dalle_prmp(overview):
     str
         ChatGPT が考えた DALL·E のプロンプト
     '''
-    prompt = 'Create a DALL·E prompt to draw a movie poster '
-    prompt += 'for the following plot, within 400 characters '
-    prompt += 'without including unnecessary words like "prompt:". '
-    prompt += "Don't use inproper words or phrases for DALL·E.\n"
-    prompt += f'Prot:\n{overview}'
+    # sys_prmp = 'From now, please use only safe representation '
+    # sys_prmp += 'that don\'t violate OpenAI ethical policy. '
+    # sys_prmp += 'Please don\'t use unethical words like '
+    # sys_prmp += '"gruesome" and so on.'
+
+    sys_prmp = '''
+今後は OpenAI の safety system に反しないよう、安全な表現だけを使ってください。
+性、残酷、暴力を思わせる言葉や、倫理に反する言葉は絶対に使わないでください。
+'''
+
+    # user_prmp = 'We will create a movie poster. '
+    # user_prmp += 'The movie plot is as following.'
+    # user_prmp += 'Come up with 40 words to represent the poster image. '
+    # user_prmp += 'They should include figure, background, objects, logo '
+    # user_prmp += 'and design instruction. '
+    # user_prmp += 'Give me them all in a comma-separated list.\n'
+    # user_prmp += f'Plot:\n{overview}'
+
+    user_prmp = '''
+以下のプロットで映画を作っています。この映画のポスターを描くための指示が欲しい。
+たとえば描かれている人物、背景、時代、土地、雰囲気、題名ロゴ、デザインなど。
+英語で40語以内に収めること。
+実在する有名な映画の題名、キャラクター、俳優の名前は使わないこと。
+'''
+    user_prmp += f'\nプロット:\n{overview}'
 
     try:
         response = openai.ChatCompletion.create(
             model=CHAT_MODEL,
-            messages=[{"role": "user", "content": prompt}]
+            messages=[
+                {"role": "system", "content": sys_prmp},
+                {"role": "user", "content": user_prmp}
+            ]
         )
         dalle_prmp = response["choices"][0]["message"]["content"]
         return dalle_prmp.strip().strip('"\'')
@@ -53,8 +77,11 @@ def main():
             size=SIZE,
         )
         print(response['data'][0]['url'])
+    except InvalidRequestError as err:
+        print(f'Invalid Request: {err}')
+        return
     except Exception as err:
-        print(err)
+        print(f'Error: {err}')
         return
 
 
