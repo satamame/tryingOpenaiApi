@@ -1,6 +1,7 @@
 '''TMDb から映画のあらすじを取得して ChatGPT が結末を考えるコード例。
 '''
 import openai
+from openai import InvalidRequestError
 
 from settings import *
 from tmdb import get_movie_overview
@@ -22,7 +23,7 @@ def predict_ending(overview):
         ChatGPT が考えた結末
     '''
     prompt = '以下のプロットの映画を作ろうとしています。'
-    prompt += f'結末を考えて1文で答えてください。\nプロット:\n{overview}'
+    prompt += f'結末を考えて1文で答えてください。日本語で。\nプロット:\n{overview}'
 
     try:
         response = openai.ChatCompletion.create(
@@ -42,6 +43,9 @@ def main():
         print('ChatGPT が考えた結末...')
         ending = predict_ending(overview)
         print(ending)
+    except InvalidRequestError as err:
+        print(f'Invalid Request: {err}')
+        return
     except Exception as err:
         print(f'Error: {err}')
         return
